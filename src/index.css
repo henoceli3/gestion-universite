@@ -1,0 +1,63 @@
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
+root {
+  font-family: "Poppins", Avenir, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  font-family: "Roboto", sans-serif;
+}
+
+.great-vibes-regular {
+  font-family: "Great Vibes", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.test-color {
+  background-color: #ffa07a8c;
+}
+
+/* Largeur et couleur de la scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 5px;
+  background-color: #ffa07a;
+}
+
+/* Style de la poignée (thumb) */
+::-webkit-scrollbar-thumb {
+  background-color: #7b3f00;
+}
+
+/* Style de la poignée au survol */
+/* ::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+} */
+
+.std-nav-item-li-ab:hover {
+  color: #7b3f00;
+}
+.std-nav-item-li:hover {
+  color: #e1a101;
+}
+
+.ant-drawer-body {
+  padding: 0 !important;
+}
+
+/* .login-Input {
+  color: white;
+} */
