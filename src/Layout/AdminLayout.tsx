@@ -11,6 +11,8 @@ const AdminLayout = () => {
   useEffect(() => {
     if (!localStorage.getItem("token")) {
       navigate("/auth/login", { replace: true });
+    } else {
+      navigate("/administration", { replace: true });
     }
   }, [navigate]);
   return (
