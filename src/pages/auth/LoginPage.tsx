@@ -40,7 +40,7 @@ const LoginPage = () => {
         NotificationSucces(`Bienvenue ${logInformations.email} !`);
         localStorage.setItem("token", res.data.data.token);
         localStorage.setItem("userBo", JSON.stringify(res.data.data.user));
-        navigator("/");
+        navigator("/administration");
       } else {
         NotificationError(res.data.response.message);
       }
