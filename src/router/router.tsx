@@ -6,6 +6,7 @@ import SingUpPage from "../pages/auth/SignUp";
 import Administration from "../pages/app/Administration";
 import AjouterAdmin from "../pages/app/administration/ajouterAdmin";
 import ModifierAdministration from "../pages/app/administration/modifierAdministration";
+import Etudiant from "../pages/app/Etudiant";
 
 export const appRouter = createBrowserRouter([
   {
@@ -33,6 +34,7 @@ export const appRouter = createBrowserRouter([
         path: "administration/modifier-administration",
         element: <ModifierAdministration />,
       },
+      { path: "etudiants", element: <Etudiant /> },
     ],
   },
 ]);
