@@ -67,7 +67,11 @@ const Administration = () => {
       title: "#",
       dataIndex: "id",
       key: "id",
-      render: (index: number) => <>{index}</>,
+      render: (
+        _value: string,
+        _record: AdminMembersInterface,
+        index: number
+      ) => <>{index + 1}</>,
     },
     {
       title: "Nom",
