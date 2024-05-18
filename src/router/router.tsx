@@ -19,7 +19,7 @@ export const appRouter = createBrowserRouter([
     errorElement: <NotFoundPage />,
   },
   {
-    path: "",
+    path: "/",
     element: <AdminLayout />,
     errorElement: <NotFoundPage />,
     children: [
