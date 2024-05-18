@@ -1,37 +1,34 @@
-import { Box, Center, Flex, Text } from "@chakra-ui/react";
-import { useTheme } from "styled-components";
-import { useNavigate } from "react-router-dom";
-import CustomButtom from "../../component/common/CustomButton";
-import { Input, Spin } from "antd";
+import { Center, useMediaQuery } from "@chakra-ui/react";
+import { Button, Col, Input, Row, Select, Spin } from "antd";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Endpoints } from "../../config/Endoinpt";
-import NotificationSucces from "../../component/common/NotificationSucces";
 import NotificationError from "../../component/common/NotificationError";
-import { colorsDef } from "../../config/Theme";
+import NotificationSucces from "../../component/common/NotificationSucces";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const LoginPage = () => {
-  const theme = useTheme();
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState<boolean>(false);
-
-  const [login_user, setLoginUser] = useState<string>("");
-  const [password_user, setPasswordUser] = useState<string>("");
-
+  const navigator = useNavigate();
+  const [spinning, setSpinning] = useState<boolean>(false);
+  const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
+  const [urlLogin, setUrlLogin] = useState<string>("");
+  const [logInformations, setLogInformations] = useState({
+    email: "",
+    password: "",
+  });
   useEffect(() => {
-    if (localStorage.getItem("tokenBo")) {
-      navigate("/tableau-de-bord", { replace: true });
+    if (localStorage.getItem("token")) {
+      navigator("/", { replace: true });
     }
-  }, [navigate]);
-
-  async function Login() {
+  }, [navigator]);
+  async function loginUser() {
     try {
-      setLoading(true);
+      setSpinning(true);
       const res = await axios.post(
-        `${Endpoints.baseUrl}${Endpoints.login}`,
+        `${Endpoints.baseUrl}${urlLogin}`,
         {
-          login_user,
-          password_user,
+          email: logInformations.email,
+          password: logInformations.password,
         },
         {
           headers: {
@@ -39,96 +36,86 @@ const LoginPage = () => {
           },
         }
       );
-      if (res.data.status === "success") {
-        localStorage.setItem("tokenBo", res.data.accessToken);
-        localStorage.setItem("userBo", JSON.stringify(res.data.result));
-        NotificationSucces("Connexion reussie", "Bienvenue sur FyleEvent");
-        navigate("/tableau-de-bord", { replace: true });
+      if (res.status === 200) {
+        NotificationSucces(`Bienvenue ${logInformations.email} !`);
+        localStorage.setItem("token", res.data.data.token);
+        localStorage.setItem("userBo", JSON.stringify(res.data.data.user));
+        navigator("/");
       } else {
-        NotificationError("Connexion echoue", res.data.message);
+        NotificationError(res.data.response.message);
       }
-      setLoading(false);
+      setSpinning(false);
     } catch (error) {
-      setLoading(false);
-      NotificationError("Connexion echoue", "Verifier votre connexion");
+      setSpinning(false);
+      NotificationError("Une erreur est survenue");
       console.log(error);
     }
   }
   return (
     <>
-      {/* grand container  */}
-      <Center h="100vh" w="100vw">
-        <Flex
-          w={"50%"}
-          h={"100%"}
-          display={{ base: "none", lg: "flex" }}
-          bg={colorsDef.primary}
-        ></Flex>
-        {/* deuxième sous conteneur avec le formulaire de connexion  */}
-        <Center
-          flexDirection={"column"}
-          justifyContent={"space-around"}
-          w={{ base: "100%", lg: "50%" }}
-          h={"100%"}
-          bg={colorsDef.bgColor}
+      <Center width={"100vw"} height={"100vh"}>
+        <Row
+          gutter={[16, 16]}
+          style={{ width: isLargerThan768 ? "50%" : "100%" }}
         >
-          <Text
-            color={theme.colors.primary}
-            className="great-vibes-regular"
-            textAlign={"center"}
-            fontSize={"2.5em"}
-            marginBottom={0}
-            // marginTop={"1em"}
-          >
-            Connectez-vous
-          </Text>
-          <Box w={"80%"}>
+          <Col span={24}>
+            <Select
+              placeholder="Selectionnez votre profil"
+              options={[
+                { value: 1, label: "Etudiant" },
+                { value: 2, label: "Enseignant" },
+                { value: 3, label: "Membre de l'administration" },
+              ]}
+              onChange={(value) => {
+                switch (value) {
+                  case 1:
+                    setUrlLogin(Endpoints.login.etudiantLogin);
+                    break;
+                  case 2:
+                    setUrlLogin(Endpoints.login.enseignantLogin);
+                    break;
+                  case 3:
+                    setUrlLogin(Endpoints.login.adminLogin);
+                    break;
+                }
+              }}
+            />
+          </Col>
+          <Col span={24}>
             <Input
-              onChange={(e) => {
-                setLoginUser(e.target.value);
-              }}
-              value={login_user}
-              placeholder={"Login"}
-              className="login-Input"
-              width={"100%"}
-              style={{
-                background: "transparent",
-                marginBottom: "1em",
-                height: "3em",
-                borderColor: theme.colors.primary,
-              }}
+              placeholder="Saisissez votre email"
+              value={logInformations.email}
+              onChange={(e) =>
+                setLogInformations({
+                  ...logInformations,
+                  email: e.target.value,
+                })
+              }
             />
+          </Col>
+          <Col span={24}>
             <Input.Password
-              onChange={(e) => {
-                setPasswordUser(e.target.value);
-              }}
-              value={password_user}
-              placeholder={"Mot de passe"}
-              className="login-Input"
-              width={"100%"}
-              style={{
-                background: "transparent",
-                marginBottom: "1em",
-                height: "3em",
-                borderColor: theme.colors.primary,
-              }}
+              type="password"
+              placeholder="Saisissez votre mot de passe"
+              value={logInformations.password}
+              onChange={(e) =>
+                setLogInformations({
+                  ...logInformations,
+                  password: e.target.value,
+                })
+              }
             />
-            {loading ? (
-              <Center>
-                <Spin />
-              </Center>
+          </Col>
+          <Col span={24} style={{ textAlign: "center" }}>
+            {spinning ? (
+              <Spin />
             ) : (
-              <CustomButtom
-                label={"Connexion"}
-                callback={() => {
-                  Login();
-                }}
-                style={{ marginTop: "1em", width: "100%" }}
-              />
+              <Button type="primary" onClick={loginUser}>
+                Connexion
+              </Button>
             )}
-          </Box>
-          <Box></Box>
-        </Center>
+          </Col>
+        </Row>
       </Center>
     </>
   );

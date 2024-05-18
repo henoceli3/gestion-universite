@@ -9,26 +9,14 @@ import ModifierAdministration from "../pages/app/administration/modifierAdminist
 
 export const appRouter = createBrowserRouter([
   {
-    path: "/admin",
-    element: <AdminLayout />,
-    errorElement: <NotFoundPage />,
-    children: [],
-  },
-  {
-    path: "login",
+    path: "auth/login",
     element: <LoginPage />,
     errorElement: <NotFoundPage />,
   },
   {
-    path: "signup",
+    path: "auth/signup",
     element: <SingUpPage />,
     errorElement: <NotFoundPage />,
-  },
-  {
-    path: "",
-    element: <AdminLayout />,
-    errorElement: <NotFoundPage />,
-    children: [],
   },
   {
     path: "",

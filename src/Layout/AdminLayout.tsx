@@ -9,8 +9,8 @@ import { useEffect } from "react";
 const AdminLayout = () => {
   const navigate = useNavigate();
   useEffect(() => {
-    if (!localStorage.getItem("tokenBo")) {
-      // navigate("/login", { replace: true });
+    if (!localStorage.getItem("token")) {
+      navigate("/auth/login", { replace: true });
     }
   }, [navigate]);
   return (
@@ -28,7 +28,7 @@ const AdminLayout = () => {
             icon={<FontAwesomeIcon icon={faSignOut} />}
             onClick={() => {
               localStorage.clear();
-              navigate("/admin/login", { replace: true });
+              navigate("/auth/login", { replace: true });
             }}
           />
         </Tooltip>
