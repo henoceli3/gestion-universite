@@ -4,20 +4,21 @@ import { useTheme } from "styled-components";
 import { Box, Center, useMediaQuery } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
-import { UserInterface } from "../../config/Interfaces";
+import { useEffect,  } from "react";
 import { colorsDef } from "../../config/Theme";
 import { useNavigate } from "react-router-dom";
-import { getUser } from "../../config/helper";
+// import { getRole } from "../../config/helper";
+// import { getUser } from "../../config/helper";
 
 const HeaderBar = () => {
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
   const navigate = useNavigate();
   const theme = useTheme();
-  const [user, setUser] = useState<UserInterface>();
+  // const [role, setRole] = useState<string>("");
 
   useEffect(() => {
-    setUser(getUser());
+    // setUser(getUser());
+    // setRole(getRole());
   }, []);
 
   return (
@@ -78,9 +79,9 @@ const HeaderBar = () => {
                   textTransform: "capitalize",
                 }}
               >
-                {`${user?.nom_user} ${user?.prenom_user}`}
+                {/* {`${user?.nom_user} ${user?.prenom_user}`} */}
               </p>
-              <p>Utilisateur</p>
+              {/* <p>{role}</p> */}
             </Box>
             <Center
               ml={"1em"}
